@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: ConfigMap
-metadata:
+metadata: 
   name: shipping
   namespace: safety
-data:
+data: 
   CART_ENDPOINT: "{{ .Values.configMap.CART_ENDPOINT }}"
   DB_HOST: "{{ .Values.configMap.DB_HOST }}"
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1 
 kind: Deployment
 metadata:
   name: shipping
   namespace: safety
-  # these are replica set labels
+# these are deployment labels
   labels:
     project: safety
     component: shipping
@@ -25,8 +25,8 @@ spec:
       project: safety
       component: shipping
       tier: backend
-  # pod definition
-  template:
+    # pod definitdion
+  template: 
     metadata:
       labels:
         project: safety
@@ -40,25 +40,25 @@ spec:
         envFrom:
         - configMapRef:
             name: shipping
-        ports:
+        ports: 
         - name: liveness-port
           containerPort: 8080
         readinessProbe:
           httpGet:
-            path: /health
-            port: liveness-port
+            path: /health 
+            port: 8080  
           failureThreshold: 1
-          periodSeconds: 150
+          periodSeconds: 100
         livenessProbe:
           httpGet:
-            path: /health
-            port: liveness-port
+            path: /health 
+            port: 8080  
           failureThreshold: 1
-          periodSeconds: 160
+          periodSeconds: 120
 ---
-apiVersion: v1
+apiVersion: v1 
 kind: Service
-metadata:
+metadata: 
   name: shipping
   namespace: safety
 spec:
@@ -68,5 +68,5 @@ spec:
     tier: backend
   ports:
     - protocol: TCP
-      port: {{ .Values.service.servicePort }} # service port
-      targetPort: 8080 # container port
+      port: 8080 ## services port
+      targetPort: 8080 ## container port
