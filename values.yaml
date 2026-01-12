@@ -1,6 +1,5 @@
 deployment:
   imageRepo: 996058207546.dkr.ecr.us-east-1.amazonaws.com/safety/shipping
-  tag: "1.0"
   imageVersion: IMAGE_VERSION
 service:
   servicePort: 8080 # default value
